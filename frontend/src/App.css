@@ -1,0 +1,16 @@
+/* Global layout tweaks for a more professional, full-width app */
+
+body {
+  background: radial-gradient(circle at top left, #fef3c7 0, #ecfdf5 40%, #eff6ff 100%);
+}
+
+#root {
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  text-align: left;
+}
+
+.app-shell {
+  min-height: 100vh;
+}
