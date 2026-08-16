@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import { useLocation } from "react-router-dom";
+import { handleImageError } from "../utils/imageFallback";
 
 
 
@@ -120,6 +121,7 @@ const AnimalDetails = () => {
             <img
               src={animal.image}
               alt={animal.name}
+              onError={(e) => handleImageError(e, animal.category)}
               className="w-full h-64 md:h-80 lg:h-96 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />

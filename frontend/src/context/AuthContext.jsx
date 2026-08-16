@@ -9,7 +9,7 @@ export const AuthProvider = ({ children }) => {
   );
   const [loading, setLoading] = useState(true);
 
-  // Load user from backend if we have a token
+  // Load user from backend if we have a token 
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (!token) {

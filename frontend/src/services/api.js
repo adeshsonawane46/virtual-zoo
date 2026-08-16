@@ -47,6 +47,11 @@ export const getQuizQuestions = async () => {
   return res.data;
 };
 
+export const fetchGeminiQuiz = async (animal, category) => {
+  const res = await api.get(`/quiz/generate-gemini?animal=${encodeURIComponent(animal)}&category=${encodeURIComponent(category || "")}`);
+  return res.data;
+};
+
 // ---------------- USER / SCORES ----------------
 export const saveQuizScore = (score) =>
   api.post("/user/quiz-score", { score });

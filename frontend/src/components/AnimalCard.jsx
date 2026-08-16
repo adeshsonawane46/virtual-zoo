@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { handleImageError } from "../utils/imageFallback";
 
 const AnimalCard = ({ animal }) => {
   return (
@@ -10,6 +11,7 @@ const AnimalCard = ({ animal }) => {
         <img
           src={animal.image}
           alt={animal.name}
+          onError={(e) => handleImageError(e, animal.category)}
           className="h-52 w-full object-cover transform group-hover:scale-110 transition-transform duration-700"
         />
       </div>

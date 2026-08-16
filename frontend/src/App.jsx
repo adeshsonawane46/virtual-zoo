@@ -6,7 +6,7 @@ import { AuthProvider } from "./context/AuthContext";
 // Layout
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
-import ProtectedRoute from "./components/ProtectedRoute";
+// ❌ Removed ProtectedRoute import
 
 // Public pages
 import Home from "./pages/Home";
@@ -51,60 +51,20 @@ function App() {
               <Route path="/register" element={<Register />} />
               <Route path="/forgot-password" element={<ForgotPassword />} />
               <Route path="/reset-password" element={<ResetPassword />} />
-              <Route
-                path="/profile"
-                element={
-                  <ProtectedRoute>
-                    <Profile />
-                  </ProtectedRoute>
-                }
-              />
 
-              {/* -------- QUIZ ROUTES (REQUIRE LOGIN) -------- */}
-              <Route
-                path="/quiz-categories"
-                element={
-                  <ProtectedRoute>
-                    <QuizCategories />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/quiz-animals"
-                element={
-                  <ProtectedRoute>
-                    <QuizAnimalList />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/quiz-start"
-                element={
-                  <ProtectedRoute>
-                    <QuizStart />
-                  </ProtectedRoute>
-                }
-              />
+              {/* Profile अब public कर दिया */}
+              <Route path="/profile" element={<Profile />} />
 
-              {/* -------- VIRTUAL ZOO (LOGIN + OPTIONAL QUIZ GUARD) -------- */}
-              <Route
-                path="/tour"
-                element={
-                  <ProtectedRoute>
-                    <VirtualTour />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/tour/:id"
-                element={
-                  <ProtectedRoute>
-                    <TourPage />
-                  </ProtectedRoute>
-                }
-              />
+              {/* -------- QUIZ ROUTES (NOW PUBLIC) -------- */}
+              <Route path="/quiz-categories" element={<QuizCategories />} />
+              <Route path="/quiz-animals" element={<QuizAnimalList />} />
+              <Route path="/quiz-start" element={<QuizStart />} />
 
-              {/* Animal detail remains public */}
+              {/* -------- VIRTUAL ZOO (NOW PUBLIC) -------- */}
+              <Route path="/tour" element={<VirtualTour />} />
+              <Route path="/tour/:id" element={<TourPage />} />
+
+              {/* Animal detail */}
               <Route path="/animal/:id" element={<AnimalDetails />} />
             </Routes>
           </main>
