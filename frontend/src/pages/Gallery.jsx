@@ -11,8 +11,10 @@ const Gallery = () => {
   const params = new URLSearchParams(location.search);
   const selectedCategory = params.get("category");
 
+  const API_URL = import.meta.env.VITE_API_URL;
+
   useEffect(() => {
-    let url = "http://localhost:5001/api/animals";
+    let url = `${API_URL}/api/animals`;
 
     if (selectedCategory) {
       url += `?category=${selectedCategory}`;

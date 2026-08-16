@@ -4,7 +4,7 @@ import Loader from "../components/Loader";
 import { useLocation } from "react-router-dom";
 import { handleImageError } from "../utils/imageFallback";
 
-
+const API_URL = import.meta.env.VITE_API_URL;
 
 const AnimalDetails = () => {
   const { id } = useParams();
@@ -18,7 +18,7 @@ const AnimalDetails = () => {
   useEffect(() => {
     const fetchAnimal = async () => {
       try {
-        const response = await fetch(`http://localhost:5001/api/animals/${id}`);
+        const response = await fetch(`${API_URL}/api/animals/${id}`);
         if (!response.ok) throw new Error("Animal not found");
         const data = await response.json();
         setAnimal(data);
@@ -37,7 +37,7 @@ const AnimalDetails = () => {
 
   const playAnimalSound = async (name) => {
     try {
-      const response = await fetch("http://localhost:5002/api/sound", {
+      const response = await fetch(`${API_URL}/api/sound`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ prompt: `${name} animal sound` })
@@ -190,13 +190,12 @@ const AnimalDetails = () => {
                 content={
                   <div className="flex items-center gap-2">
                     <div
-                      className={`w-2.5 h-2.5 rounded-full ${
-                        animal.status === "Endangered"
-                          ? "bg-red-500"
-                          : animal.status === "Vulnerable"
+                      className={`w-2.5 h-2.5 rounded-full ${animal.status === "Endangered"
+                        ? "bg-red-500"
+                        : animal.status === "Vulnerable"
                           ? "bg-yellow-500"
                           : "bg-emerald-500"
-                      }`}
+                        }`}
                     ></div>
                     <span className="text-gray-700 font-medium text-xs md:text-sm">
                       {animal.status}

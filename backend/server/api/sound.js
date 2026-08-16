@@ -11,7 +11,7 @@ router.post("/", async (req, res) => {
       { text: prompt },
       {
         headers: {
-          "xi-api-key": "e4167b60024f56b71267c20d5690e230c61decd556253dcdeed145f21c3d756a",
+          "xi-api-key": process.env.ELEVENLABS_API_KEY,
           "Content-Type": "application/json"
         },
         responseType: "arraybuffer"

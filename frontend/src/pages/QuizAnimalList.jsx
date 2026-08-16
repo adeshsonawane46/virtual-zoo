@@ -3,6 +3,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
 import { handleImageError } from "../utils/imageFallback";
 
+const API_URL = import.meta.env.VITE_API_URL;
+
 const QuizAnimalList = () => {
   const [animals, setAnimals] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,7 +20,7 @@ const QuizAnimalList = () => {
   useEffect(() => {
     setLoading(true);
 
-    fetch(`http://localhost:5001/api/animals?category=${category}`)
+    fetch(`${API_URL}/api/animals?category=${encodeURIComponent(category)}`)
       .then((res) => res.json())
       .then((data) => {
         setAnimals(data);
@@ -134,7 +136,7 @@ const QuizAnimalList = () => {
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                    
+
                     {animal.status && (
                       <span className="absolute top-3 right-3 bg-black/60 backdrop-blur-md text-amber-200 text-[0.65rem] font-bold px-2.5 py-1 rounded-full border border-amber-400/30 shadow">
                         {animal.status}

@@ -13,6 +13,7 @@ const { generateGeminiQuiz } = require("./services/geminiService");
 // Routes
 const authRoutes = require("./routes/auth");
 const userRoutes = require("./routes/user");
+const soundRoute = require("./server/api/sound");
 
 const app = express();
 const PORT = process.env.PORT || 5001;
@@ -40,6 +41,7 @@ mongoose.connect(process.env.MONGO_URI)
 // ---------------- ROUTES ----------------
 app.use("/api/auth", authRoutes);
 app.use("/api/user", userRoutes);
+app.use("/api/sound", soundRoute);
 
 // ---------------- ANIMAL ROUTES ----------------
 app.get("/api/animals", async (req, res) => {

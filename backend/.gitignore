@@ -1,4 +1,5 @@
-node-modules
-logs
+node_modules/
+logs/
 .env
-dotenv
+.env.*
+!.env.example

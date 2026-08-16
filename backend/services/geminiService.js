@@ -4,7 +4,7 @@ const axios = require("axios");
  * Generate 10 MCQs directly from Gemini API for a specified animal.
  */
 async function generateGeminiQuiz(animalName, categoryName) {
-  const apiKey = process.env.GEMINI_API_KEY || process.env.VITE_GEMINI_API_KEY;
+  const apiKey = process.env.GEMINI_API_KEY;
 
   if (apiKey) {
     const prompt = `You are a wildlife expert creating an engaging 10-question multiple choice quiz for a Virtual Zoo app about the animal "${animalName}" (${categoryName || 'Wildlife'}).
@@ -21,7 +21,7 @@ Each object MUST strictly have these properties:
 
     try {
       // Try gemini-1.5-flash endpoint first
-      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+      const geminiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3.5-flash:generateContent?key=${apiKey}`;
       const response = await axios.post(
         geminiUrl,
         {

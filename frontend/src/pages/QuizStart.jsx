@@ -126,7 +126,7 @@ const QuizStart = () => {
   return (
     <section className="min-h-screen bg-gradient-to-b from-amber-50/80 via-emerald-50/20 to-white py-12 px-4 md:px-8">
       <div className="max-w-4xl mx-auto">
-        
+
         {/* Top Header */}
         <div className="flex items-center justify-between gap-4 mb-8">
           <button
@@ -146,7 +146,7 @@ const QuizStart = () => {
         {!submitted ? (
           /* ================= ACTIVE QUIZ RUNNER ================= */
           <div className="bg-white rounded-3xl shadow-xl border border-amber-200/80 overflow-hidden">
-            
+
             {/* Progress Bar Header */}
             <div className="bg-gradient-to-r from-amber-900 to-emerald-900 p-6 text-white">
               <div className="flex items-center justify-between text-xs font-bold uppercase tracking-wider mb-3">

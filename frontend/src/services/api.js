@@ -1,21 +1,20 @@
 import axios from "axios";
 
-// Backend runs on 5001
 const api = axios.create({
-  baseURL: "http://localhost:5001/api",
+  baseURL: `${import.meta.env.VITE_API_URL}/api`,
   withCredentials: true
 });
 
 // Attach JWT token automatically
 api.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
+
   if (token) {
     req.headers.Authorization = `Bearer ${token}`;
   }
+
   return req;
 });
-
-
 
 // ---------------- AUTH ----------------
 export const loginUser = (data) =>
@@ -48,7 +47,10 @@ export const getQuizQuestions = async () => {
 };
 
 export const fetchGeminiQuiz = async (animal, category) => {
-  const res = await api.get(`/quiz/generate-gemini?animal=${encodeURIComponent(animal)}&category=${encodeURIComponent(category || "")}`);
+  const res = await api.get(
+    `/quiz/generate-gemini?animal=${encodeURIComponent(animal)}&category=${encodeURIComponent(category || "")}`
+  );
+
   return res.data;
 };
 
