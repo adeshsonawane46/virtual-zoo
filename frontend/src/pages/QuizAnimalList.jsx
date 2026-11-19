@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loader from "../components/Loader";
-import { handleImageError } from "../utils/imageFallback";
+import { handleImageError, formatAnimalImageUrl } from "../utils/imageFallback";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -127,10 +127,11 @@ const QuizAnimalList = () => {
               >
                 <div>
                   {/* Image */}
-                  <div className="h-44 w-full overflow-hidden rounded-t-3xl relative bg-amber-100">
+                  <div className="h-44 w-full overflow-hidden rounded-t-3xl relative bg-slate-800">
                     <img
-                      src={animal.image}
+                      src={formatAnimalImageUrl(animal.image, animal.category)}
                       alt={animal.name}
+                      referrerPolicy="no-referrer"
                       loading="lazy"
                       onError={(e) => handleImageError(e, animal.category)}
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import Loader from "../components/Loader";
 import { useLocation } from "react-router-dom";
-import { handleImageError } from "../utils/imageFallback";
+import { handleImageError, formatAnimalImageUrl } from "../utils/imageFallback";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -117,10 +117,11 @@ const AnimalDetails = () => {
         {/* 1 ROW – 3 CARDS LAYOUT */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
           {/* CARD 1: Image */}
-          <div className="bg-white rounded-2xl shadow-lg border border-amber-100 overflow-hidden relative">
+          <div className="bg-slate-900 rounded-2xl shadow-lg border border-amber-100 overflow-hidden relative">
             <img
-              src={animal.image}
+              src={formatAnimalImageUrl(animal.image, animal.category)}
               alt={animal.name}
+              referrerPolicy="no-referrer"
               onError={(e) => handleImageError(e, animal.category)}
               className="w-full h-64 md:h-80 lg:h-96 object-cover"
             />

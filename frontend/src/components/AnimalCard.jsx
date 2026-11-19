@@ -1,16 +1,18 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { handleImageError } from "../utils/imageFallback";
+import { handleImageError, formatAnimalImageUrl } from "../utils/imageFallback";
 
 const AnimalCard = ({ animal }) => {
   return (
     <div className="group bg-[#0C1C24] rounded-xl overflow-hidden shadow-lg transition-transform duration-300 hover:scale-105">
 
       {/* Image Section */}
-      <div className="relative overflow-hidden">
+      <div className="relative overflow-hidden bg-slate-800">
         <img
-          src={animal.image}
+          src={formatAnimalImageUrl(animal.image, animal.category)}
           alt={animal.name}
+          referrerPolicy="no-referrer"
+          loading="lazy"
           onError={(e) => handleImageError(e, animal.category)}
           className="h-52 w-full object-cover transform group-hover:scale-110 transition-transform duration-700"
         />
