@@ -1,3 +1,7 @@
+import animalImageMap from "./animalImageMap.json";
+
+export { animalImageMap };
+
 export const categoryFallbacks = {
   MAMMAL: "https://images.unsplash.com/photo-1546182990-dffeafbe841d?auto=format&fit=crop&w=1200&q=80",
   BIRD: "https://images.unsplash.com/photo-1552728089-57bdde30beb3?auto=format&fit=crop&w=1200&q=80",
@@ -40,23 +44,47 @@ export const getCategoryFallbackImage = (category) => {
 };
 
 /**
- * Normalizes Wikimedia and animal image URLs.
- * Wikimedia enforces standard thumbnail widths (e.g. 500px, 960px, 1280px).
- * Any non-standard request like /800px- returns HTTP 400 Bad Request.
+ * Returns a verified, accurate photo for an animal using id or name mapping.
  */
-export const formatAnimalImageUrl = (url, category) => {
-  if (!url || typeof url !== "string") {
+export const getVerifiedAnimalImage = (animal) => {
+  if (!animal) return null;
+  if (typeof animal === "string") {
+    if (animalImageMap[animal]) return animalImageMap[animal];
+    return animal;
+  }
+  if (animal.id && animalImageMap[animal.id]) {
+    return animalImageMap[animal.id];
+  }
+  if (animal.name && animalImageMap[animal.name]) {
+    return animalImageMap[animal.name];
+  }
+  return animal.image || null;
+};
+
+/**
+ * Normalizes animal image URLs to ensure crisp loading and avoid 400/404 errors.
+ * Accepts either an animal object { id, name, image, category } or a URL string.
+ */
+export const formatAnimalImageUrl = (animalOrUrl, category) => {
+  let targetUrl = null;
+  if (animalOrUrl && typeof animalOrUrl === "object") {
+    targetUrl = getVerifiedAnimalImage(animalOrUrl);
+  } else if (typeof animalOrUrl === "string") {
+    targetUrl = animalImageMap[animalOrUrl] || animalOrUrl;
+  }
+
+  if (!targetUrl || typeof targetUrl !== "string") {
     return getCategoryFallbackImage(category);
   }
 
-  let formatted = url.trim();
+  let formatted = targetUrl.trim();
 
   // Fix Wikimedia non-standard thumbnail sizes (convert 800px -> 960px)
   if (formatted.includes("upload.wikimedia.org") || formatted.includes("thumb.wikimedia.org")) {
+    formatted = formatted.replace("thumb.wikimedia.org", "upload.wikimedia.org");
     if (formatted.includes("/800px-")) {
       formatted = formatted.replace(/\/800px-/g, "/960px-");
     }
-    // Also fix known dead Wikimedia filename for Grizzly Bear
     if (formatted.includes("GrizzlyBearKabini.jpg")) {
       formatted = "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/GrizzlyBearJeanBeaufort.jpg/960px-GrizzlyBearJeanBeaufort.jpg";
     }
@@ -67,19 +95,30 @@ export const formatAnimalImageUrl = (url, category) => {
 
 /**
  * Handles image load errors gracefully with multi-tier fallback:
- * Tier 1: Try the category-specific high-res Unsplash image.
- * Tier 2: Try the inline SVG category banner (guaranteed offline/local).
+ * Tier 1: Try the verified unique image from map (if not already tried).
+ * Tier 2: Try the category-specific high-res Unsplash image.
+ * Tier 3: Try the inline SVG category banner (guaranteed offline/local).
  */
-export const handleImageError = (e, category) => {
+export const handleImageError = (e, category, animal) => {
   const img = e.currentTarget || e.target;
   const currentAttempt = parseInt(img.dataset.fallbackAttempt || "0", 10);
 
-  if (currentAttempt === 0) {
+  if (currentAttempt === 0 && animal) {
     img.dataset.fallbackAttempt = "1";
+    const verified = getVerifiedAnimalImage(animal);
+    if (verified && verified !== img.src) {
+      img.referrerPolicy = "no-referrer";
+      img.src = verified;
+      return;
+    }
+  }
+
+  if (currentAttempt <= 1) {
+    img.dataset.fallbackAttempt = "2";
     img.referrerPolicy = "no-referrer";
     img.src = getCategoryFallbackImage(category);
-  } else if (currentAttempt === 1) {
-    img.dataset.fallbackAttempt = "2";
+  } else if (currentAttempt === 2) {
+    img.dataset.fallbackAttempt = "3";
     img.src = getSvgFallback(category);
   } else {
     img.onerror = null;

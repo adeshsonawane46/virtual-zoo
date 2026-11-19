@@ -129,11 +129,11 @@ const QuizAnimalList = () => {
                   {/* Image */}
                   <div className="h-44 w-full overflow-hidden rounded-t-3xl relative bg-slate-800">
                     <img
-                      src={formatAnimalImageUrl(animal.image, animal.category)}
+                      src={formatAnimalImageUrl(animal, animal.category)}
                       alt={animal.name}
                       referrerPolicy="no-referrer"
                       loading="lazy"
-                      onError={(e) => handleImageError(e, animal.category)}
+                      onError={(e) => handleImageError(e, animal.category, animal)}
                       className="h-full w-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>

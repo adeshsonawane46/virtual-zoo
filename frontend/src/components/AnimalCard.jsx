@@ -9,11 +9,11 @@ const AnimalCard = ({ animal }) => {
       {/* Image Section */}
       <div className="relative overflow-hidden bg-slate-800">
         <img
-          src={formatAnimalImageUrl(animal.image, animal.category)}
+          src={formatAnimalImageUrl(animal, animal.category)}
           alt={animal.name}
           referrerPolicy="no-referrer"
           loading="lazy"
-          onError={(e) => handleImageError(e, animal.category)}
+          onError={(e) => handleImageError(e, animal.category, animal)}
           className="h-52 w-full object-cover transform group-hover:scale-110 transition-transform duration-700"
         />
       </div>

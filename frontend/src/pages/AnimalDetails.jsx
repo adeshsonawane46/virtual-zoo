@@ -119,10 +119,10 @@ const AnimalDetails = () => {
           {/* CARD 1: Image */}
           <div className="bg-slate-900 rounded-2xl shadow-lg border border-amber-100 overflow-hidden relative">
             <img
-              src={formatAnimalImageUrl(animal.image, animal.category)}
+              src={formatAnimalImageUrl(animal, animal.category)}
               alt={animal.name}
               referrerPolicy="no-referrer"
-              onError={(e) => handleImageError(e, animal.category)}
+              onError={(e) => handleImageError(e, animal.category, animal)}
               className="w-full h-64 md:h-80 lg:h-96 object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/35 via-transparent to-transparent pointer-events-none" />
